@@ -14,7 +14,9 @@ llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 prompt = PromptTemplate(
     input_variables=["country1", "country2", "number_of_sentences"],
     template="""What is the capital of {country1} and {country2}?
-    Write {number_of_sentences} sentences on both mentioning why they are famous."""
+    Write {number_of_sentences} sentences on both mentioning why they are famous.
+    Avoid giving information about fictional places. If the country
+    is fictional, or non-existance, answer: I don't know."""
 )
 
 country1 = st.text_input("Enter the first country: ")
