@@ -26,7 +26,7 @@ prompt_speech = PromptTemplate(
     """
 )
 
-first_chain = prompt_title | llm | StrOutputParser()
+first_chain = prompt_title | llm | StrOutputParser() | (lambda title: (st.write(title), title)[1])
 second_chain = prompt_speech | llm
 final_chain = first_chain | second_chain
 
