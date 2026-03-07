@@ -1,13 +1,9 @@
 import os
-import json
-from tkinter import Variable
 import streamlit as st
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-# from langchain_community.chat.message_histories.in_memory import ChatMessageHistory
 from langchain_community.chat_message_histories.in_memory import ChatMessageHistory
-# from langchain_core.runnable.history import RunnableWithMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 
 load_dotenv()

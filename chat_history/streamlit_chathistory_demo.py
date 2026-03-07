@@ -50,3 +50,6 @@ if user_input:
     )
     st.write(response.content)
 
+    st.write("HISTORY")
+    st.write(history_for_chain)
+
