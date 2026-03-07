@@ -1,8 +1,9 @@
 import os
+import streamlit as st
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_community.chat_message_histories.in_memory import ChatMessageHistory 
+from langchain_community.chat_message_histories import StreamlitChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 
 load_dotenv()
@@ -20,7 +21,7 @@ prompt = ChatPromptTemplate.from_messages(
 
 chain = prompt | llm
 
-history_for_chain = ChatMessageHistory()
+history_for_chain = StreamlitChatMessageHistory()
 
 chain_with_history = RunnableWithMessageHistory(
     chain,
@@ -29,24 +30,26 @@ chain_with_history = RunnableWithMessageHistory(
     history_messages_key="chat_history",
 )
 
-print("Agile Guide")
+st.title("Agile Guide")
+user_input = st.text_input("Enter the question: ")
 
-while True:
-    user_input = input("Enter the question: ")
 
-    # while True:
-    if user_input:
-        response = (
-            chain_with_history.invoke(
-            {"user_input": user_input},
-            config=
-                {
-                    "configurable":
-                        {
-                            "session_id": "abc123"
-                        }
-                }
-            )
+# while True:
+if user_input:
+    response = (
+        chain_with_history.invoke(
+        {"user_input": user_input},
+        config=
+            {
+                "configurable":
+                    {
+                        "session_id": "abc123"
+                    }
+            }
         )
-        print(response.content)
+    )
+    st.write(response.content)
+
+    st.write("HISTORY")
+    st.write(history_for_chain)
 
