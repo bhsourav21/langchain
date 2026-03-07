@@ -5,7 +5,7 @@ from langchain_openai import OpenAIEmbeddings
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-llm = OpenAIEmbeddings()
+embeddings = OpenAIEmbeddings()
 
 text=input("Enter a text: ")
 response = llm.embed_query(text)
