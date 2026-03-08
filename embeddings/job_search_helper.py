@@ -21,4 +21,4 @@ embedding_vector=embeddings.embed_query(text)
 docs = db.similarity_search_by_vector(embedding_vector)
 
 for doc in docs:
-    print(doc)
+    print(doc.page_content)
