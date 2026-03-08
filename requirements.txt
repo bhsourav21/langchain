@@ -1,0 +1,20 @@
+# Environment
+python-dotenv
+
+# LangChain
+langchain>=1
+langchain-community
+langchain-core
+langchain-openai
+langchain-text-splitters
+langchain-chroma
+
+# UI
+streamlit
+
+# Data
+numpy
+
+# tools
+wikipedia
+ddgs
