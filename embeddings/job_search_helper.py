@@ -10,8 +10,7 @@ load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 embeddings = OpenAIEmbeddings()
 
-document = TextLoader("job_listingsed?
-.txt").load()
+document = TextLoader("job_listings.txt").load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=200, chunk_overlap=10)
 chunks = text_splitter.split_documents(document)
 db = Chroma.from_documents(chunks, embeddings)
