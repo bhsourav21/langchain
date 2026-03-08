@@ -1,0 +1,23 @@
+import os
+from dotenv import load_dotenv
+from langchain_openai import OpenAIEmbeddings
+from langchain_community.document_loaders import TextLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_chroma import Chroma
+
+load_dotenv()
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+embeddings = OpenAIEmbeddings()
+
+document = TextLoader("job_listings.txt").load()
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=200, chunk_overlap=10)
+chunks = text_splitter.split_documents(document)
+db = Chroma.from_documents(chunks, embeddings)
+retriever = db.as_retriever()
+
+text = input("Enter the query:")
+docs = retriever.invoke(text)
+
+for doc in docs:
+    print(doc.page_content)
