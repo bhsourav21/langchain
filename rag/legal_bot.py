@@ -15,20 +15,23 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
 embeddings = OpenAIEmbeddings()
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 
-document = TextLoader("product-data.txt").load()
-text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+document = TextLoader("Legal_Document_Analysis_Data.txt").load()
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=10)
 chunks = text_splitter.split_documents(document)
 vector_store = Chroma.from_documents(chunks, embeddings)
 retriever = vector_store.as_retriever()
 
 prompt = ChatPromptTemplate.from_messages(
     [
-        ("system", """You are an assistant for answering questions.
-        Use the provided context to respond.If the answer
-        isn't clear, acknowledge that you don't know.
+        ("system", """You are an assistant for answering contract 
+        agreement related questions. Use the provided context to 
+        respond. If the answer is directly 
+        not available in the document, try to analyze the document fully and answer.
+        If the answer isn't clear, acknowledge that you don't know.
         Limit your response to three concise sentences.
         {context}
         
@@ -51,14 +54,14 @@ chain_with_history = RunnableWithMessageHistory(
     history_messages_key="chat_history",
 )
 
-st.write("Legal Bot")
+st.write("Chat with Document")
 question = st.text_input("Your question: ")
 
 if question:
     response = (
         chain_with_history.invoke(
             {"input": question},
-            {"configurable":{"session_id": "abc123"}}
+            {"configurable":{"session_id": "sourav1"}}
         )
     )
     st.write(response['answer'])
